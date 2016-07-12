@@ -13,6 +13,7 @@
 <link rel="stylesheet" href="css/colors/turquoise.css">
 <link type="text/css" rel="stylesheet" href="css/swipebox.css" />
 <link type="text/css" rel="stylesheet" href="css/animations.css" />
+<link href="css/sweetalert/sweetalert.css" rel="stylesheet">
 <!-- <link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro:400,300,700,900' rel='stylesheet' type='text/css'> -->
 </head>
 <body id="mobile_wrap">
@@ -43,6 +44,7 @@
 <script type="text/javascript" src="js/my-app.js"></script>
 <script type="text/javascript" src="js/jquery.swipebox.js"></script>
 <script type="text/javascript" src="js/email.js"></script>
+<script src="js/sweetalert/sweetalert.min.js"></script>
 <script type="text/javascript">
   $(document).ready(function ()
     {
@@ -58,8 +60,21 @@
       {
           var id = $('#username').val();
           // setCookie("username", "0811", 30);
-          window.localStorage.setItem("username", id);
-          checkCookie();
+          $.ajax({
+                    url: 'http://pagresik.pe.hu/php/ceklogin.php',
+                    data: {id: id},
+                    dataType: 'json',
+                    type: 'post'
+                }).done(function (xHasil)
+                {
+                 if(xHasil==1){
+                  swal('Berhasil','Anda Berhasil Masuk','success');
+                  window.localStorage.setItem("username", id);
+                  checkCookie();
+                 }else{
+                  swal('Kesalahan','No HP tidak terdaftar','warning');
+                 }   
+                })
       }
     )
     
